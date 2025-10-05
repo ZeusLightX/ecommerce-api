@@ -15,7 +15,7 @@ Spring Boot (Java 21) e-commerce backend used to showcase AWS, Docker, Kubernete
 - **DB (soon):** PostgreSQL + Spring Data JPA
 
 ## Run locally
-`ash
+'''Bash
 ./mvnw spring-boot:run
 # http://localhost:8080/hello
 # http://localhost:8080/actuator/health
