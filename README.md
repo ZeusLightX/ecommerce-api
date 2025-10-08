@@ -1,5 +1,7 @@
 # ecommerce-api
 
+![CI](https://github.com/ZeusLightX/ecommerce-api/actions/workflows/ci.yml/badge.svg)
+
 Spring Boot (Java 21) e-commerce backend used to showcase AWS, Docker, Kubernetes, Jenkins, and CI/CD skills.
 
 ## Features (current → planned)
