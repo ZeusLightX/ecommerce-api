@@ -12,19 +12,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Pull your code into the GitHub runner
+      # 1 Pull your code into the GitHub runner
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Install Java 21 using Temurin (OpenJDK)
+      # 2 Install Java 21 using Temurin (OpenJDK)
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
+          
+      - name: Make Maven Wrapper executable
+        run: chmod +x mvnw
 
-      # 3️⃣ Build & test your app with Maven Wrapper
+      # 3 Build & test your app with Maven Wrapper
       - name: Build & Test
         run: ./mvnw -B verify
 
