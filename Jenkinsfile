@@ -1,13 +1,10 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK21'
-        maven 'Maven3'
-    }
-
     environment {
-        GIT_CREDENTIALS = credentials('github-key')
+        JAVA_HOME = '/opt/java/openjdk'
+        PATH = "${JAVA_HOME}/bin:${PATH}"
+        DOCKER_IMAGE = 'ecommerce-api:latest'
     }
 
     stages {
@@ -15,39 +12,42 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'git@github.com:ZeusLightX/ecommerce-api.git',
-                    credentialsId: "${GIT_CREDENTIALS}"
+                    credentialsId: 'github-key'
             }
         }
 
         stage('Build') {
             steps {
+                echo '🏗️ Building project...'
                 sh './mvnw clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
+                echo '🧪 Running tests...'
                 sh './mvnw test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t ecommerce-api:jenkins .'
+                echo '🐳 Building Docker image...'
+                sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
         stage('Run') {
             steps {
-                echo 'Starting container...'
-                sh 'docker run -d -p 8080:8080 ecommerce-api:jenkins'
+                echo '🚀 Running container...'
+                sh "docker run -d -p 8080:8080 ${DOCKER_IMAGE}"
             }
         }
     }
 
     post {
         success {
-            echo '✅ Build and deployment successful!'
+            echo '✅ Build completed successfully!'
         }
         failure {
             echo '❌ Build or test failed.'
