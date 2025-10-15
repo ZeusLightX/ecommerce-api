@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerce-api
+  template:
+    metadata:
+      labels:
+        app: ecommerce-api
+    spec:
+      containers:
+        - name: ecommerce-api
+          image: ecommerce-api:latest
+          imagePullPolicy: Never  # use local image
+          ports:
+            - containerPort: 8080
