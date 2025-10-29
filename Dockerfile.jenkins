@@ -1,0 +1,16 @@
+# Start from official Jenkins with JDK 21
+FROM jenkins/jenkins:lts-jdk21
+
+# Switch to root to install packages
+USER root
+
+# Install Docker CLI inside Jenkins container
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    apt-get clean
+
+# Create docker group if it doesn't exist and add Jenkins to it
+RUN groupadd -f docker && usermod -aG docker jenkins
+
+# Switch back to Jenkins user
+USER jenkins
